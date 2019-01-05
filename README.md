@@ -34,11 +34,23 @@ you can also use `ssh -I /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so user@host`
 
 `yubico-piv-tool -S "/CN=neoice.users.neoice.net/" -s 9a --action verify --action request-certificate -i public.pem`
 
+this magic ASN1 address is the "Microsoft Universal Principal Name", aka `SSL_CLIENT_SAN_OTHER_msUPN_0`
+
+`vault write pki-users/sign/users-neoice-net common_name="neoice.users.neoice.net" other_sans="1.3.6.1.4.1.311.20.2.3;utf8:neoice@neoice.net" csr=@req.csr`
+
 # Firefox
 
 you can also load Smart Card support into Firefox
 
 ![firefox.png](firefox.png)
+
+# apache2
+
+this magic can be used to authenticate against [Gogs](https://gogs.io).
+
+ `RequestHeader set X-WEBAUTH-USER %{SSL_CLIENT_SAN_OTHER_msUPN_0}e`
+
+ `RequestHeader edit X-WEBAUTH-USER "([^@]+)@.*" $1`
 
 # udev
 
