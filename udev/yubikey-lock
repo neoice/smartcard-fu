@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/bin/su user -c "DISPLAY=:0 /usr/bin/xflock4"
